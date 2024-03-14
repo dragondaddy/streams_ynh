@@ -35,6 +35,83 @@ name.fr = "Configuration de Streams"
         help.en = "<strong>low</strong>: Personal usage, behind the SSO. No RAM footprint when not used, but the impact on the processor can be high if many users are using the service.<br><strong>medium</strong>: Low usage, few people or/and publicly accessible. Low RAM footprint, medium processor footprint when used.<br><strong>high</strong>: High usage, frequently visited website. High RAM footprint, but lower on processor usage and quickly responding."
         help.fr = "<strong>low</strong> : Utilisation personnelle, derrière le SSO. Pas d'empreinte RAM en cas de non-utilisation, mais l'impact sur le processeur peut être élevé si de nombreux utilisateurs utilisent le service.<br><strong>medium</strong> : Faible utilisation, peu d'utilisateurs et/ou service pas nécessairement accessible au public. Faible empreinte RAM, empreinte moyenne sur le processeur en cas d'utilisation.<br><strong>high</strong> : Utilisation soutenue, site web fréquemment visité. L'empreinte RAM est élevée, mais l'utilisation du processeur est moindre et le service répond rapidement."
 
+    [main.phpmailer_config]
+    name.en = "PHPMailer configuration"
+    name.fr = "Configuration de PHPMailer"
+
+        [main.phpmailer_config.phpmailer_activate]
+        ask.en = "Activate PHPMailer"
+        ask.fr = "Activer PHPMailer"
+        type = "boolean"
+        default = "0"
+        help.en = "Enabling this option allows you to use 'PHPMailer' instead of built-in mail() function. This can be a solution if the emails generated and sent by your site do not always reach their intended recipients."
+        help.fr = "Activer cette option vous permet d'utiliser 'PHPMailer' au lieu de la fonction mail() intégrée. Ceci peut être une solution si les courriels générés et envoyés par votre site ne parviennent pas toujours à leurs destinaires."
+
+        [main.phpmailer_config.phpmailer_local_smtp_server]
+        visible = "phpmailer_activate == '1'"
+        ask.en = "Use your YunoHost server's SMTP"
+        ask.fr = "Utiliser le SMTP de votre serveur YunoHost"
+        type = "boolean"
+        default = "1"
+        help.en = "<strong>Yes</strong>: Recommended option. Your YunoHost server has a SMTP server, so the easiest thing to do is to use it.<br><strong>Non</strong>: You can choose to use an external SMTP server with secure authentication. In this case, you will need to provide a certain amount of additional information."
+        help.fr = "<strong>Oui</strong> : Option recommandée. Votre serveur YunoHost dispose d'un serveur SMTP, le plus simple est de l'utiliser.<br><strong>Non</strong> : Vous pouvez choisir de passer par un serveur SMTP externe utilisant une authentification sécurisée. Vous devrez dans ce cas fournir un certain nombre d'informations supplémentaires."
+
+        [main.phpmailer_config.phpmailer_custom_smtp_server]
+        visible = "phpmailer_activate == '1' && phpmailer_local_smtp_server == '0'"
+        ask.en = "SMTP server address"
+        ask.fr = "Adresse du serveur SMTP"
+        type = "string"
+        example = "smtp.example.com"
+        pattern.regexp = '^([a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.)+[a-zA-Z]{2,}$'
+        pattern.error = 'Enter a valid domain'
+        help.en = "Address of the SMTP server you wish to use. Enter the domain or sub-domain alone, without \"https://\" or \"http://\"."
+        help.fr = "Adresse du serveur SMTP que vous souhaitez utiliser. Entrez le domaine ou le sous-domaine seul, sans \"https://\" ou \"http://\"."
+
+        [main.phpmailer_config.phpmailer_smtp_username]
+        visible = "phpmailer_activate == '1' && phpmailer_local_smtp_server == '0'"
+        ask.en = "Username"
+        ask.fr = "Nom d'utilisateur"
+        type = "string"
+        help.en = "Username to be used for authentication on your SMTP server. Please check whether it must be entered in the form \"username\" or \"username@smtp.example.com\"."
+        help.fr = "Nom d'utilisateur à utiliser pour l'authentification sur votre serveur SMTP. Attention, vérifiez bien s'il doit être saisi sous la forme \"username\" ou \"username@smtp.example.com\"."
+
+        [main.phpmailer_config.phpmailer_smtp_password]
+        visible = "phpmailer_activate == '1' && phpmailer_local_smtp_server == '0'"
+        ask.en = "Password"
+        ask.fr = "Mot de passe"
+        type = "password"
+        help.en = "Password to be used for authentication on your SMTP server."
+        help.fr = "Mot de passe à utiliser pour l'authentification sur votre serveur SMTP."
+
+        [main.phpmailer_config.phpmailer_smtp_encryption]
+        visible = "phpmailer_activate == '1' && phpmailer_local_smtp_server == '0'"
+        ask.en = "Encryption method"
+        ask.fr = "Méthode de chiffrement"
+        type = "select"
+        choices = ["STARTTLS", "SSL"]
+        help.en = "You need to check which encryption method is used by your SMTP provider. You should be able to find the necessary information in your provider's documentation on how to configure your email client (<a href=\"https://yunohost.org/en/email_configure_client\">example</a>)."
+        help.fr = "Vous devez vérifier quelle méthode de chiffrement est utilisée par votre fournisseur SMTP. Vous devriez pouvoir trouver les informations nécessaires dans la documentation de votre fournisseur sur la manière de configurer votre client de messagerie (<a href=\"https://yunohost.org/fr/email_configure_client\">exemple</a>)."
+
+        [main.phpmailer_config.phpmailer_smtp_self_signed]
+        visible = "phpmailer_activate == '1' && phpmailer_local_smtp_server == '0'"
+        ask.en = "Self-signed certificate"
+        ask.fr = "Certificat auto-signé"
+        type = "boolean"
+        default = "0"
+        help.en = "Enable this option if the SMTP server uses a self-signed certificate. <strong>If you don't understand the previous sentence, don't touch anything</strong>."
+        help.fr = "Activer cette option si le serveur SMTP utilise un certificat auto-signé. <strong>Si vous ne comprenez pas la phrase précédente, ne touchez à rien</strong>."
+
+        [main.phpmailer_config.phpmailer_sender_address]
+        visible = "phpmailer_activate == '1'"
+        ask.en = "Sender's email"
+        ask.fr = "Courriel de l'expéditeur"
+        type = "string"
+        default = "Administrator@__DOMAIN__"
+        pattern.regexp = '^[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:].]{2,12}$'
+        pattern.error = 'Enter a valid email adress'
+        help.en = "Sender's email address (\"From\" field) for emails generated by your website. This address must <strong>imperatively</strong> use a domain name managed by your YunoHost server. Any incorrect address will prevent PHPMailer's configuration from being validated."
+        help.fr = "Adresse de courriel de l'expéditeur (champ \"De\") pour les courriels générés par votre site. Cette adresse doit <strong>impérativement</strong> utiliser un nom de domaine géré par votre serveur YunoHost. Toute adresse incorrecte empêchera la validation de la configuration de PHPMailer."
+
     [main.git_branch_mode]
     name.en = "Developer Mode"
     name.fr = "Mode Développeur"

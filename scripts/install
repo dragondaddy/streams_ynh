@@ -16,9 +16,20 @@ source /usr/share/yunohost/helpers
 email=$(ynh_user_get_info --username=$admin --key=mail)
 upload="256M"
 random_string="$(ynh_string_random --length=48)"
+# PHP-FPM
 fpm_footprint="medium"
 fpm_free_footprint=0
 fpm_usage="medium"
+# PHPMailer
+phpmailer_activate=0
+phpmailer_local_smtp_server="1"
+phpmailer_custom_smtp_server=""
+phpmailer_smtp_username=""
+phpmailer_smtp_password=""
+phpmailer_smtp_encryption=""
+phpmailer_smtp_self_signed=0
+phpmailer_sender_address="Administrator@$domain"
+# Git branch
 git_branch_mode="0"
 
 #=================================================
@@ -29,9 +40,20 @@ ynh_script_progression --message="Storing installation settings..." --weight=1
 ynh_app_setting_set --app=$app --key=email --value=$email
 ynh_app_setting_set --app=$app --key=upload --value=$upload
 ynh_app_setting_set --app=$app --key=random_string --value=$random_string
+# PHP-FPM
 ynh_app_setting_set --app=$app --key=fpm_footprint --value=$fpm_footprint
 ynh_app_setting_set --app=$app --key=fpm_free_footprint --value=$fpm_free_footprint
 ynh_app_setting_set --app=$app --key=fpm_usage --value=$fpm_usage
+# PHPMailer
+ynh_app_setting_set --app=$app --key=phpmailer_activate --value=$phpmailer_activate
+ynh_app_setting_set --app=$app --key=phpmailer_smtp_server --value=$phpmailer_smtp_server
+ynh_app_setting_set --app=$app --key=phpmailer_custom_smtp_server --value=$phpmailer_custom_smtp_server
+ynh_app_setting_set --app=$app --key=phpmailer_smtp_username --value=$phpmailer_smtp_username
+ynh_app_setting_set --app=$app --key=phpmailer_smtp_password --value=$phpmailer_smtp_password
+ynh_app_setting_set --app=$app --key=phpmailer_smtp_encryption --value=$phpmailer_smtp_encryption
+ynh_app_setting_set --app=$app --key=phpmailer_smtp_self_signed --value=$phpmailer_smtp_self_signed
+ynh_app_setting_set --app=$app --key=phpmailer_sender_address --value=$phpmailer_sender_address
+# Git branch
 ynh_app_setting_set --app=$app --key=git_branch_mode --value="$git_branch_mode"
 
 #=================================================
